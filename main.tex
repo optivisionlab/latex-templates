@@ -1,0 +1,75 @@
+% !TEX program = xelatex
+% HaUI / SICT research presentation template (English)
+% Compiler: XeLaTeX (Overleaf: Menu > Compiler > XeLaTeX)
+\documentclass[aspectratio=169, 11pt, t]{beamer}
+\usetheme{HaUI}
+
+\usepackage{booktabs}
+
+% ----------------------------------------------------------- Metadata -------
+\title[Short Research Title]{Title of the Research Paper\\ Goes Here}
+\subtitle{Optional subtitle or tagline}
+\author[N. V. A, T. T. B]{Nguyen Van A, Tran Thi B}
+\institute{SICT, Hanoi University of Industry}
+\date{Hanoi, October 2026}
+\confname{Student Research Conference 2026}
+\contactinfo{anhnn173@fpt.com \quad|\quad sict.haui.edu.vn}
+
+\begin{document}
+
+% ------------------------------------------------ 1. Title -----------------
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% ------------------------------------------------ 2. Outline ---------------
+\begin{frame}{Outline}
+  \hauisidephoto
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+% ------------------------------------------------ 3. Section + 4. Content ---
+\section{Introduction}
+
+\begin{frame}{Background and Motivation}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item Background: briefly describe the field and the practical problem.
+        \item Research gap:
+          \begin{itemize}
+            \item Limitations of existing methods.
+            \item Lack of data or evaluation for the target setting.
+          \end{itemize}
+        \item \alert{Research question}: state it clearly and make it measurable.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \begin{block}{Objective}
+        Propose a new method that improves accuracy while reducing computational cost.
+      \end{block}
+      \begin{exampleblock}{Key Contributions}
+        A model, a dataset, and experimental results.
+      \end{exampleblock}
+      \begin{alertblock}{Note}
+        Replace this sample text with your own content.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\section{Proposed Method}
+
+\begin{frame}{Workflow}
+  \begin{enumerate}
+    \item Collect and preprocess the data.
+    \item Build the proposed model.
+    \item Train and tune the hyperparameters.
+    \item Evaluate with standard metrics: $F_1 = \dfrac{2PR}{P+R}$.
+  \end{enumerate}
+\end{frame}
+
+% ------------------------------------------------ 5. Thank you --------------
+\hauithanksframe
+
+\end{document}

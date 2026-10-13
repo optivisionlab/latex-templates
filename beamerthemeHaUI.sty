@@ -1,0 +1,244 @@
+% =============================================================================
+%  beamerthemeHaUI.sty — Theme Beamer cho slide báo cáo nghiên cứu (HaUI / SICT)
+%  Biên dịch bằng XeLaTeX hoặc LuaLaTeX (Overleaf: Menu > Compiler).
+%  Font nạp từ thư mục fonts/ nên không phụ thuộc font hệ thống.
+% =============================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeHaUI}[2026/10/13 HaUI Beamer theme]
+
+\mode<presentation>
+
+\RequirePackage{fontspec}
+\RequirePackage{tikz}
+\usetikzlibrary{calc,fadings}
+
+% ---------------------------------------------------------------- Màu sắc ---
+\definecolor{haui-navy}{HTML}{083970}  % màu chủ đạo (haui.edu.vn)
+\definecolor{haui-blue}{HTML}{0D4E96}  % màu phụ
+\definecolor{haui-red}{HTML}{DE2737}   % điểm nhấn 1 (logo SICT)
+\definecolor{haui-gold}{HTML}{FFCC4E}  % điểm nhấn 2 (logo SICT)
+\definecolor{haui-text}{HTML}{444444}  % chữ thân bài
+\definecolor{haui-bg}{HTML}{E9ECEF}    % nền block / đường kẻ
+
+% ------------------------------------------------------------------ Font ----
+\usefonttheme{professionalfonts}
+\setmainfont{SourceSans3}[Path=fonts/, Extension=.otf,
+  UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-It, BoldItalicFont=*-BoldIt]
+\setsansfont{SourceSans3}[Path=fonts/, Extension=.otf,
+  UprightFont=*-Regular, BoldFont=*-Bold, ItalicFont=*-It, BoldItalicFont=*-BoldIt]
+\renewcommand{\familydefault}{\sfdefault}
+\newfontfamily\hauiheadfont{Montserrat}[Path=fonts/, Extension=.otf,
+  UprightFont=*-SemiBold, BoldFont=*-Bold]
+\newfontfamily\hauiblackfont{Montserrat}[Path=fonts/, Extension=.otf,
+  UprightFont=*-ExtraBold]
+
+% --------------------------------------------------- Thông tin tuỳ chỉnh -----
+\newcommand{\hauiconf}{}
+\newcommand{\confname}[1]{\renewcommand{\hauiconf}{#1}}        % tên hội nghị / seminar
+\newcommand{\hauicontact}{}
+\newcommand{\contactinfo}[1]{\renewcommand{\hauicontact}{#1}}  % email, website... on the last slide
+\newcommand{\hauithankstitle}{Thank you!}
+\newcommand{\hauithankssub}{Questions \& Discussion}
+
+% Đường dẫn tài nguyên (đổi nếu bạn đặt ở nơi khác)
+\newcommand{\hauilogosict}{logo/logo-sict-ngang.png}
+\newcommand{\hauilogolab}{logo/optivisionlab.png}
+\newcommand{\hauibgtitle}{images/bg-title.jpg}
+\newcommand{\hauibgthanks}{images/bg-thanks.jpg}
+
+% ----------------------------------------------------- Màu của Beamer --------
+\setbeamercolor{normal text}{fg=haui-text, bg=white}
+\setbeamercolor{structure}{fg=haui-navy}
+\setbeamercolor{alerted text}{fg=haui-red}
+\setbeamercolor{section in toc}{fg=haui-navy}
+\setbeamercolor{section in toc shaded}{fg=haui-text!45}
+\setbeamercolor{block title}{bg=haui-navy, fg=white}
+\setbeamercolor{block body}{bg=haui-bg, fg=haui-text}
+\setbeamercolor{block title alerted}{bg=haui-red, fg=white}
+\setbeamercolor{block body alerted}{bg=haui-red!8, fg=haui-text}
+\setbeamercolor{block title example}{bg=haui-gold, fg=haui-navy}
+\setbeamercolor{block body example}{bg=haui-gold!15, fg=haui-text}
+\setbeamercolor{caption name}{fg=haui-navy}
+\setbeamercolor{item}{fg=haui-navy}
+
+% ------------------------------------------------------ Bố cục chung ---------
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=1cm, text margin right=1cm}
+\setbeamerfont{block title}{family=\hauiheadfont, size=\normalsize}
+\setbeamerfont{caption}{size=\small}
+\setbeamerfont{caption name}{family=\hauiheadfont}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{caption}[numbered]
+
+\setbeamertemplate{itemize item}{\tikz[baseline=0.05ex]\fill[haui-gold] (0,0) rectangle (0.17,0.17);}
+\setbeamertemplate{itemize subitem}{\tikz[baseline=0.05ex]\fill[haui-blue] (0,0) rectangle (0.13,0.13);}
+\setbeamertemplate{itemize subsubitem}{\tikz[baseline=0.05ex]\fill[haui-text!60] (0,0) rectangle (0.1,0.1);}
+\setbeamertemplate{enumerate item}{%
+  \tikz[baseline=(n.base)]\node[circle,fill=haui-navy,text=white,inner sep=0pt,
+    minimum size=0.5cm,font=\hauiheadfont\scriptsize](n){\insertenumlabel};}
+\setbeamertemplate{enumerate subitem}{\color{haui-blue}\insertenumlabel.}
+
+% ------------------------------------------- Tiêu đề slide (thanh navy) ------
+\newcommand{\hauibarh}{1.15cm}
+\setbeamertemplate{frametitle}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[haui-navy] (current page.north west) rectangle
+      ($(current page.north east)+(0,-\hauibarh)$);
+    \fill[haui-gold] ($(current page.north west)+(0,-\hauibarh)$) rectangle
+      ($(current page.north east)+(0,-\hauibarh-0.06cm)$);
+    \fill[haui-red] (current page.north west) rectangle
+      ($(current page.north west)+(0.28cm,-\hauibarh-0.06cm)$);
+    \node[anchor=west,text=white,text width=\paperwidth-2.2cm,align=left,inner sep=0pt]
+      at ($(current page.north west)+(0.8cm,-0.5*\hauibarh)$)
+      {\hauiheadfont\fontsize{13.5}{16}\selectfont\insertframetitle};
+  \end{tikzpicture}%
+}
+\setbeamertemplate{headline}{\leavevmode\vbox to 0.35cm{}}
+
+% ------------------------------------------------ Chân slide + tiến độ -------
+\setbeamertemplate{footline}{%
+  \pgfmathsetlengthmacro{\hauiprog}{\insertframenumber/\inserttotalframenumber*\paperwidth}%
+  \leavevmode\vbox to 0.85cm{\vfil}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[haui-bg] (current page.south west) rectangle ($(current page.south east)+(0,0.07cm)$);
+    \fill[haui-gold] (current page.south west) rectangle ($(current page.south west)+(\hauiprog,0.07cm)$);
+    \draw[haui-bg,line width=0.4pt] ($(current page.south west)+(0.6cm,0.8cm)$) --
+      ($(current page.south east)+(-0.6cm,0.8cm)$);
+    \node[anchor=west,inner sep=0pt] at ($(current page.south west)+(0.6cm,0.45cm)$)
+      {\includegraphics[height=0.5cm]{\hauilogosict}};
+    \node[anchor=west,text=haui-text!70,text width=\paperwidth-6.2cm,align=left,inner sep=0pt,
+      font=\hauiheadfont\fontsize{6.5}{8}\selectfont]
+      at ($(current page.south west)+(4.1cm,0.45cm)$)
+      {\insertshortauthor\ \ \textbullet\ \ \insertshorttitle};
+    \node[circle,fill=haui-red,text=white,inner sep=0pt,minimum size=0.52cm,
+      font=\hauiheadfont\fontsize{7.5}{8}\selectfont]
+      at ($(current page.south east)+(-0.85cm,0.45cm)$) {\insertframenumber};
+  \end{tikzpicture}%
+}
+
+% ------------------------------------- Ảnh dải bên phải (tuỳ chọn) ---------
+% Dùng trong frame: \hauisidephoto  hoặc  \hauisidephoto[images/ten-anh.jpg]
+\newcommand{\hauisidephoto}[1][\hauibgthanks]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{scope}
+      \clip ($(current page.south east)+(-5.2cm,0.95cm)$) rectangle
+        ($(current page.north east)+(0,-1.27cm)$);
+      \node[inner sep=0pt] at ($(current page.east)+(-2.6cm,-0.2cm)$)
+        {\includegraphics[height=7.2cm]{#1}};
+    \end{scope}
+    \fill[haui-gold] ($(current page.south east)+(-5.2cm,0.95cm)$) rectangle
+      ($(current page.north east)+(-5.14cm,-1.27cm)$);
+  \end{tikzpicture}}
+
+% --------------------------------------------------------- Mục lục ----------
+\setbeamertemplate{section in toc}{%
+  \leavevmode\hbox{%
+    \tikz[baseline=(n.base)]\node[circle,fill=haui-navy,text=white,inner sep=0pt,
+      minimum size=0.66cm,font=\hauiheadfont\small](n){\inserttocsectionnumber};%
+    \hspace{0.4cm}{\hauiheadfont\normalsize\inserttocsection}}\par\vspace{0.3cm}}
+\setbeamertemplate{section in toc shaded}{%
+  \leavevmode\hbox{%
+    \tikz[baseline=(n.base)]\node[circle,fill=haui-text!25,text=white,inner sep=0pt,
+      minimum size=0.66cm,font=\hauiheadfont\small](n){\inserttocsectionnumber};%
+    \hspace{0.4cm}{\hauiheadfont\normalsize\inserttocsection}}\par\vspace{0.3cm}}
+\setbeamertemplate{subsection in toc}{\hspace{1.2cm}{\small\inserttocsubsection}\par\vspace{0.1cm}}
+
+% ------------------------------------------------------ Slide tiêu đề --------
+\defbeamertemplate{title page}{haui}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=south west,inner sep=0pt] at (current page.south west)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{\hauibgtitle}};
+    \fill[haui-navy,opacity=0.90] (current page.south west) rectangle
+      ($(current page.north west)+(8.8cm,0)$);
+    \fill[haui-navy,opacity=0.90,path fading=east] ($(current page.south west)+(8.8cm,0)$) rectangle
+      ($(current page.north west)+(15.5cm,0)$);
+    % thanh nhận diện
+    \fill[haui-red]  (current page.south west) rectangle ($(current page.south east)+(0,0.16cm)$);
+    \fill[haui-gold] ($(current page.south west)+(0,0.16cm)$) rectangle ($(current page.south east)+(0,0.22cm)$);
+    % logo SICT (hộp trắng, góc trên trái)
+    \node[anchor=north west,fill=white,rounded corners=3pt,inner xsep=7pt,inner ysep=5pt]
+      at ($(current page.north west)+(0.8cm,-0.6cm)$)
+      {\includegraphics[height=0.85cm]{\hauilogosict}};
+    % logo OptiVisionLab (hộp trắng, góc trên phải)
+    \node[anchor=north east,fill=white,rounded corners=3pt,inner sep=3pt]
+      at ($(current page.north east)+(-0.7cm,-0.55cm)$)
+      {\includegraphics[height=1.5cm]{\hauilogolab}};
+    % nội dung
+    \node[anchor=north west,text=white,text width=8.2cm,align=left,inner sep=0pt]
+      at ($(current page.south west)+(1cm,6.85cm)$) {%
+      \hyphenpenalty=10000 \exhyphenpenalty=10000 \raggedright
+      \ifx\hauiconf\empty\else
+        {\hauiheadfont\fontsize{8.5}{10}\selectfont\color{haui-gold}\MakeUppercase{\hauiconf}\par}\vspace{0.2cm}%
+      \fi
+      {\hauiblackfont\fontsize{17}{21}\selectfont\inserttitle\par}\vspace{0.25cm}%
+      {\color{haui-gold}\rule{2.2cm}{0.09cm}}\par\vspace{0.25cm}%
+      \ifx\insertsubtitle\empty\else
+        {\fontsize{11.5}{14}\selectfont\color{white!92}\insertsubtitle\par}\vspace{0.35cm}%
+      \fi
+      {\hauiheadfont\fontsize{11}{14}\selectfont\insertauthor\par}\vspace{0.12cm}%
+      {\fontsize{9.5}{12}\selectfont\color{white!82}\insertinstitute\par}\vspace{0.12cm}%
+      {\fontsize{9.5}{12}\selectfont\color{haui-gold}\insertdate\par}%
+    };
+  \end{tikzpicture}%
+}
+\setbeamertemplate{title page}[haui]
+
+% --------------------------------------------- Slide phân chia section -------
+\newcommand{\hauisectionframe}{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[haui-navy] (current page.south west) rectangle (current page.north east);
+      % họa tiết: vòng tròn mờ + dải chéo đỏ/vàng
+      \fill[haui-blue,opacity=0.35] ($(current page.east)+(0.5cm,-0.3cm)$) circle (4.6cm);
+      \fill[haui-blue,opacity=0.5]  ($(current page.east)+(1.6cm,-0.3cm)$) circle (3cm);
+      \begin{scope}
+        \clip (current page.south west) rectangle (current page.north east);
+        \fill[haui-gold] ($(current page.south east)+(-5.2cm,0)$) --
+          ($(current page.south east)+(-4.55cm,0)$) --
+          ($(current page.north east)+(-1.1cm,0)$) --
+          ($(current page.north east)+(-1.75cm,0)$) -- cycle;
+        \fill[haui-red] ($(current page.south east)+(-4.4cm,0)$) --
+          ($(current page.south east)+(-4.05cm,0)$) --
+          ($(current page.north east)+(-0.6cm,0)$) --
+          ($(current page.north east)+(-0.95cm,0)$) -- cycle;
+      \end{scope}
+      \fill[haui-red]  (current page.south west) rectangle ($(current page.south east)+(0,0.16cm)$);
+      \fill[haui-gold] ($(current page.south west)+(0,0.16cm)$) rectangle ($(current page.south east)+(0,0.22cm)$);
+      \node[anchor=south west,text=haui-gold,inner sep=0pt]
+        at ($(current page.west)+(1.2cm,0.85cm)$)
+        {\hauiblackfont\fontsize{64}{64}\selectfont\ifnum\value{section}<10 0\fi\arabic{section}};
+      \node[anchor=north west,text=white,text width=9.5cm,align=left,inner sep=0pt]
+        at ($(current page.west)+(1.2cm,0.3cm)$)
+        {\hauiblackfont\fontsize{20}{25}\selectfont\insertsection};
+      \fill[haui-gold] ($(current page.west)+(1.2cm,0.6cm)$) rectangle ($(current page.west)+(3.4cm,0.68cm)$);
+    \end{tikzpicture}
+  \end{frame}}
+\AtBeginSection[]{\hauisectionframe}
+
+% -------------------------------------------------------- Slide cảm ơn -------
+\newcommand{\hauithanksframe}{%
+  \begin{frame}[plain]
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[anchor=south west,inner sep=0pt] at (current page.south west)
+        {\includegraphics[width=\paperwidth,height=\paperheight]{\hauibgthanks}};
+      \fill[haui-navy,opacity=0.82] (current page.south west) rectangle (current page.north east);
+      % khung logo phía dưới
+      \fill[white] (current page.south west) rectangle ($(current page.south east)+(0,1.5cm)$);
+      \fill[haui-red]  ($(current page.south west)+(0,1.5cm)$) rectangle ($(current page.south east)+(0,1.58cm)$);
+      \fill[haui-gold] ($(current page.south west)+(0,1.58cm)$) rectangle ($(current page.south east)+(0,1.64cm)$);
+      \node[anchor=west,inner sep=0pt] at ($(current page.south west)+(1cm,0.75cm)$)
+        {\includegraphics[height=0.85cm]{\hauilogosict}};
+      \node[anchor=east,inner sep=0pt] at ($(current page.south east)+(-1cm,0.75cm)$)
+        {\includegraphics[height=1.15cm]{\hauilogolab}};
+      \node[anchor=center,text=white,text width=13cm,align=center,inner sep=0pt]
+        at ($(current page.center)+(0,0.85cm)$) {%
+        {\hauiblackfont\fontsize{34}{40}\selectfont\hauithankstitle\par}\vspace{0.3cm}%
+        {\color{haui-gold}\rule{2.4cm}{0.09cm}}\par\vspace{0.3cm}%
+        {\hauiheadfont\fontsize{12.5}{15}\selectfont\hauithankssub\par}\vspace{0.5cm}%
+        {\fontsize{10}{13}\selectfont\color{white!90}\hauicontact\par}%
+      };
+    \end{tikzpicture}
+  \end{frame}}
+
+\mode<all>
+\endinput
