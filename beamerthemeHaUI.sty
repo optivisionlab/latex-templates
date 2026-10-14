@@ -40,9 +40,10 @@
 \newcommand{\hauithankstitle}{Thank you!}
 \newcommand{\hauithankssub}{Questions \& Discussion}
 
-% Đường dẫn tài nguyên (đổi nếu bạn đặt ở nơi khác)
+% Đường dẫn tài nguyên (đổi nếu bạn đặt ở nơi khác).
+% Muốn bỏ logo lab: \renewcommand{\hauilogolab}{} sau \usetheme{HaUI}
 \newcommand{\hauilogosict}{logo/logo-sict-ngang.png}
-\newcommand{\hauilogolab}{logo/optivisionlab.png}
+\newcommand{\hauilogolab}{logo/optivisionlab-crop.png}
 \newcommand{\hauibgtitle}{images/bg-title.jpg}
 \newcommand{\hauibgthanks}{images/bg-thanks.jpg}
 
@@ -77,6 +78,18 @@
   \tikz[baseline=(n.base)]\node[circle,fill=haui-navy,text=white,inner sep=0pt,
     minimum size=0.5cm,font=\hauiheadfont\scriptsize](n){\insertenumlabel};}
 \setbeamertemplate{enumerate subitem}{\color{haui-blue}\insertenumlabel.}
+
+% Tài liệu tham khảo: nhãn số trong vòng tròn, tác giả đậm màu navy
+\setbeamertemplate{bibliography item}{%
+  \tikz[baseline=(n.base)]\node[circle,fill=haui-navy,text=white,inner sep=0pt,
+    minimum size=0.5cm,font=\hauiheadfont\tiny](n){\insertbiblabel};}
+\setbeamercolor{bibliography entry author}{fg=haui-navy}
+\setbeamercolor{bibliography entry title}{fg=haui-text}
+\setbeamercolor{bibliography entry location}{fg=haui-text!70}
+\setbeamercolor{bibliography entry note}{fg=haui-text!70}
+\setbeamerfont{bibliography entry author}{series=\bfseries}
+\setbeamerfont{bibliography entry title}{size=\small}
+\setbeamerfont{bibliography entry location}{size=\footnotesize}
 
 % ------------------------------------------- Tiêu đề slide (thanh navy) ------
 \newcommand{\hauibarh}{1.15cm}
@@ -149,9 +162,9 @@
     \node[anchor=south west,inner sep=0pt] at (current page.south west)
       {\includegraphics[width=\paperwidth,height=\paperheight]{\hauibgtitle}};
     \fill[haui-navy,opacity=0.90] (current page.south west) rectangle
-      ($(current page.north west)+(8.8cm,0)$);
-    \fill[haui-navy,opacity=0.90,path fading=east] ($(current page.south west)+(8.8cm,0)$) rectangle
-      ($(current page.north west)+(15.5cm,0)$);
+      ($(current page.north west)+(11cm,0)$);
+    \fill[haui-navy,opacity=0.90,path fading=east] ($(current page.south west)+(11cm,0)$) rectangle
+      ($(current page.north west)+(16cm,0)$);
     % thanh nhận diện
     \fill[haui-red]  (current page.south west) rectangle ($(current page.south east)+(0,0.16cm)$);
     \fill[haui-gold] ($(current page.south west)+(0,0.16cm)$) rectangle ($(current page.south east)+(0,0.22cm)$);
@@ -159,18 +172,20 @@
     \node[anchor=north west,fill=white,rounded corners=3pt,inner xsep=7pt,inner ysep=5pt]
       at ($(current page.north west)+(0.8cm,-0.6cm)$)
       {\includegraphics[height=0.85cm]{\hauilogosict}};
-    % logo OptiVisionLab (hộp trắng, góc trên phải)
-    \node[anchor=north east,fill=white,rounded corners=3pt,inner sep=3pt]
-      at ($(current page.north east)+(-0.7cm,-0.55cm)$)
-      {\includegraphics[height=1.5cm]{\hauilogolab}};
+    % logo OptiVisionLab (hình tròn trắng ôm sát logo, góc trên phải)
+    \ifx\hauilogolab\empty\else
+    \node[anchor=north east,circle,fill=white,inner sep=1pt]
+      at ($(current page.north east)+(-0.7cm,-0.85cm)$)
+      {\includegraphics[height=0.78cm]{\hauilogolab}};
+    \fi
     % nội dung
-    \node[anchor=north west,text=white,text width=8.2cm,align=left,inner sep=0pt]
-      at ($(current page.south west)+(1cm,6.85cm)$) {%
+    \node[anchor=north west,text=white,text width=11.4cm,align=left,inner sep=0pt]
+      at ($(current page.south west)+(1cm,6.95cm)$) {%
       \hyphenpenalty=10000 \exhyphenpenalty=10000 \raggedright
       \ifx\hauiconf\empty\else
         {\hauiheadfont\fontsize{8.5}{10}\selectfont\color{haui-gold}\MakeUppercase{\hauiconf}\par}\vspace{0.2cm}%
       \fi
-      {\hauiblackfont\fontsize{17}{21}\selectfont\inserttitle\par}\vspace{0.25cm}%
+      {\hauiblackfont\fontsize{22}{27}\selectfont\inserttitle\par}\vspace{0.25cm}%
       {\color{haui-gold}\rule{2.2cm}{0.09cm}}\par\vspace{0.25cm}%
       \ifx\insertsubtitle\empty\else
         {\fontsize{11.5}{14}\selectfont\color{white!92}\insertsubtitle\par}\vspace{0.35cm}%
@@ -228,8 +243,10 @@
       \fill[haui-gold] ($(current page.south west)+(0,1.58cm)$) rectangle ($(current page.south east)+(0,1.64cm)$);
       \node[anchor=west,inner sep=0pt] at ($(current page.south west)+(1cm,0.75cm)$)
         {\includegraphics[height=0.85cm]{\hauilogosict}};
+      \ifx\hauilogolab\empty\else
       \node[anchor=east,inner sep=0pt] at ($(current page.south east)+(-1cm,0.75cm)$)
         {\includegraphics[height=1.15cm]{\hauilogolab}};
+      \fi
       \node[anchor=center,text=white,text width=13cm,align=center,inner sep=0pt]
         at ($(current page.center)+(0,0.85cm)$) {%
         {\hauiblackfont\fontsize{34}{40}\selectfont\hauithankstitle\par}\vspace{0.3cm}%

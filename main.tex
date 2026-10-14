@@ -5,15 +5,17 @@
 \usetheme{HaUI}
 
 \usepackage{booktabs}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
 
 % ----------------------------------------------------------- Metadata -------
-\title[Short Research Title]{Title of the Research Paper\\ Goes Here}
+\title[Short Research Title]{Title of the Research Paper Goes Here}
 \subtitle{Optional subtitle or tagline}
 \author[N. V. A, T. T. B]{Nguyen Van A, Tran Thi B}
 \institute{SICT, Hanoi University of Industry}
 \date{Hanoi, October 2026}
 \confname{Student Research Conference 2026}
-\contactinfo{anhnn173@fpt.com \quad|\quad sict.haui.edu.vn}
+\contactinfo{quang.do@fit-haui.edu.vn \quad|\quad sict.haui.edu.vn}
 
 \begin{document}
 
@@ -67,6 +69,133 @@
     \item Train and tune the hyperparameters.
     \item Evaluate with standard metrics: $F_1 = \dfrac{2PR}{P+R}$.
   \end{enumerate}
+\end{frame}
+
+% ------------------------------------------------ 6. Experiments & Results ---
+\section{Experiments \& Results}
+
+% Layout: bảng kết quả + nhận xét
+\begin{frame}{Experimental Setup and Main Results}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{Setup}
+      \begin{itemize}
+        \item Dataset: describe source, size, train/val/test split.
+        \item Baselines: ResNet-50~\cite{he2016resnet}, ViT-B/16~\cite{dosovitskiy2021vit}.
+        \item Optimizer: Adam~\cite{kingma2015adam}, lr $=10^{-4}$.
+        \item Metrics: Accuracy, $F_1$, inference time.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{table}
+        \caption{Comparison on the test set (\%).}
+        \centering\small
+        \begin{tabular}{lccc}
+          \toprule
+          Method & Acc. & $F_1$ & Time (ms) \\
+          \midrule
+          ResNet-50~\cite{he2016resnet}      & 86.4 & 85.1 & 12.3 \\
+          ViT-B/16~\cite{dosovitskiy2021vit} & 88.9 & 87.6 & 21.8 \\
+          \midrule
+          \textbf{Ours}                      & \textbf{91.2} & \textbf{90.3} & 14.1 \\
+          \bottomrule
+        \end{tabular}
+      \end{table}
+      \begin{alertblock}{Takeaway}
+        +2.3 points of accuracy over the best baseline at lower cost.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Layout: biểu đồ + diễn giải
+\begin{frame}{Performance Analysis}
+  \begin{columns}[T]
+    \begin{column}{0.58\textwidth}
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}
+          \begin{axis}[
+            width=\linewidth, height=5.2cm, ybar, bar width=9pt,
+            ymin=80, ymax=94, ylabel={Score (\%)},
+            symbolic x coords={Acc.,Prec.,Recall,$F_1$}, xtick=data,
+            legend style={at={(0.5,1.05)},anchor=south,legend columns=-1,draw=none},
+            ymajorgrids, grid style={haui-bg}, tick label style={font=\small},
+            axis line style={haui-text!50}]
+            \addplot[fill=haui-text!40,draw=none] coordinates {(Acc.,86.4)(Prec.,85.9)(Recall,84.4)($F_1$,85.1)};
+            \addplot[fill=haui-blue,draw=none]    coordinates {(Acc.,88.9)(Prec.,88.2)(Recall,87.0)($F_1$,87.6)};
+            \addplot[fill=haui-gold,draw=none]    coordinates {(Acc.,91.2)(Prec.,90.8)(Recall,89.8)($F_1$,90.3)};
+            \legend{ResNet-50, ViT-B/16, Ours}
+          \end{axis}
+        \end{tikzpicture}
+        \caption{Metric comparison across methods.}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \begin{itemize}
+        \item Consistent gains on all four metrics.
+        \item Largest improvement on \alert{Recall}: +2.8 over ViT.
+        \item Ablation: removing module A drops $F_1$ by 1.9 points.
+      \end{itemize}
+      \begin{exampleblock}{Insight}
+        Explain \emph{why} the method works, not only that it works.
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ------------------------------------------------ 7. Conclusion & Future Work -
+\section{Conclusion \& Future Work}
+
+\begin{frame}{Conclusion and Future Work}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Conclusion}
+        \begin{itemize}
+          \item Proposed a method that reaches \alert{91.2\%} accuracy.
+          \item Cuts inference time by 35\% versus ViT-B/16~\cite{dosovitskiy2021vit}.
+          \item Released code and dataset for reproducibility.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{exampleblock}{Future Work}
+        \begin{enumerate}
+          \item Evaluate on larger, multi-domain datasets.
+          \item Model compression for edge deployment.
+          \item Self-supervised pre-training with unlabeled data.
+        \end{enumerate}
+      \end{exampleblock}
+    \end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{alertblock}{Limitations}
+    Results are reported on a single dataset; generalization remains to be verified.
+  \end{alertblock}
+\end{frame}
+
+% ------------------------------------------------ 8. References ---------------
+% Dùng [allowframebreaks] nếu danh sách dài hơn một slide.
+\begin{frame}[allowframebreaks]{References}
+  \footnotesize
+  \begin{thebibliography}{9}
+    \bibitem{he2016resnet}
+      K.~He, X.~Zhang, S.~Ren, J.~Sun.
+      \newblock Deep residual learning for image recognition.
+      \newblock In \emph{Proc. IEEE CVPR}, pp.~770--778, 2016.
+    \bibitem{dosovitskiy2021vit}
+      A.~Dosovitskiy \emph{et al.}
+      \newblock An image is worth 16x16 words: Transformers for image recognition at scale.
+      \newblock In \emph{Proc. ICLR}, 2021.
+    \bibitem{kingma2015adam}
+      D.~P.~Kingma, J.~Ba.
+      \newblock Adam: A method for stochastic optimization.
+      \newblock In \emph{Proc. ICLR}, 2015.
+    \bibitem{vaswani2017attention}
+      A.~Vaswani \emph{et al.}
+      \newblock Attention is all you need.
+      \newblock In \emph{Advances in NeurIPS}, vol.~30, 2017.
+  \end{thebibliography}
 \end{frame}
 
 % ------------------------------------------------ 5. Thank you --------------
